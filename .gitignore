@@ -1,2 +1,11 @@
 /Lab 1-2/nbproject/private/
 /Lab 1-2/build/
+/Lab 3/dist/
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
