@@ -49,15 +49,15 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
             System.out.println(w + "  " + h);
 
             double offsetX1 = -w / 2 - 0.6;
-            double offsetY1 = h + 0.46;
+            double offsetY1 = h*1.2 + 0.7;
 
-            double offsetX2 = +w / 3 + 0.3;
-            double offsetY2 = h + 0.4;
+            double offsetX2 = +w / 3 + 0.4;
+            double offsetY2 = h + 0.37;
             for (int i = 0; i < curLength; i++) {
                 Rec oldRec = recs.get(i);
-                Rec newRec1 = oldRec.cpyAndTransform(offsetX1, offsetY1, 1, 0.7, -Math.PI / 8);
+                Rec newRec1 = oldRec.cpyAndTransform(offsetX1, offsetY1, 1, 0.75, -Math.PI / 9);
                 recs.add(newRec1);
-                Rec newRec2 = oldRec.cpyAndTransform(offsetX2, offsetY2, 0.95, 0.8, Math.PI / 9);
+                Rec newRec2 = oldRec.cpyAndTransform(offsetX2, offsetY2, 0.95, 0.8, Math.PI / 7);
                 recs.add(newRec2);
 
                 maxX = Math.max(maxX, Math.max(newRec1.getX(), newRec2.getX()));
