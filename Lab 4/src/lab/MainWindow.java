@@ -31,12 +31,12 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
      */
     ArrayList<GraphVertex> points;
 
-    public Point getPointBezier(List<Point> P, double t) {
-        if (P.size() == 1) {
-            return P.get(0);
+    public Point getPointBezier(List<Point> P, int start, int end, double t) {
+        if (start + 1 == end) {
+            return P.get(start);
         } else {
-            Point p0 = getPointBezier(P.subList(0, P.size() - 1), t);
-            Point p1 = getPointBezier(P.subList(1, P.size()), t);
+            Point p0 = getPointBezier(P, start, end - 1, t);
+            Point p1 = getPointBezier(P, start + 1, end, t);
             double x = (1 - t) * p0.getX() + t * p1.getX();
             double y = (1 - t) * p0.getY() + t * p1.getY();
             return new Point(x, y);
@@ -61,12 +61,12 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
         gl.glColor3d(255, 0, 0);
         gl.glPointSize(4.0f);
         gl.glLineWidth(3.0f);
-        gl.glBegin(GL2.GL_POINTS);
-        for (double t = 0; t <= 1; t += 0.0001) {
+        gl.glBegin(GL2.GL_LINE_STRIP);
+        for (double t = 0; t <= 1; t += 0.005) {
             List<Point> P = points.stream().map((e) -> {
                 return new Point(e.getCenteredX(), e.getCenteredY());
             }).collect(Collectors.toList());
-            Point result = getPointBezier(P, t);
+            Point result = getPointBezier(P, 0, P.size(), t);
             gl.glVertex2d(result.getX(), result.getY());
         }
 //        for (int i = 0; i < 4; i++) {
