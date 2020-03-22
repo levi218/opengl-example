@@ -15,6 +15,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -103,7 +105,21 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
             return 0;
         }
         gl.glShaderSource(shader, 1, code, null);
-        gl.glCompileShader(type);
+        gl.glCompileShader(shader);
+
+        // error checking
+        IntBuffer ib = IntBuffer.allocate(10);
+        gl.glGetShaderiv(shader, GL2.GL_COMPILE_STATUS, ib);
+        if (ib.get() == GL2.GL_FALSE) {
+            IntBuffer maxLength = IntBuffer.allocate(10);
+            gl.glGetShaderiv(shader, GL2.GL_INFO_LOG_LENGTH, maxLength);
+
+            int length = maxLength.get();
+            ByteBuffer errLog = ByteBuffer.allocate(length);
+            gl.glGetShaderInfoLog(shader, length, maxLength, errLog);
+
+            System.out.println("err: " + new String(errLog.array(), StandardCharsets.UTF_8));
+        }
         return shader;
     }
 
