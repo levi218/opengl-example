@@ -1,5 +1,4 @@
-varying vec3 normal, color, pos;  // значение текстурных координат 
-                             // именно этого фрагмента
+varying vec3 normal, color, pos;  
 void main(void)
 {
     float shininess = 5000;

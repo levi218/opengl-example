@@ -61,9 +61,19 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
         } else {
             Point p0 = getPointBezier(P, start, end - 1, t);
             Point p1 = getPointBezier(P, start + 1, end, t);
+
+            //if (start + 2 == end) {
+            //}
             double x = (1 - t) * p0.getX() + t * p1.getX();
             double y = (1 - t) * p0.getY() + t * p1.getY();
-            return new Point(x, y);
+
+            Point result = new Point(x, y);
+
+            double x_tangent = p1.getX() - p0.getX();
+            double y_tangent = p1.getY() - p0.getY();
+            result.normal = new Point(y_tangent, -x_tangent);
+
+            return result;
         }
     }
 
@@ -135,14 +145,20 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
         gl.glClearColor(0, 0, 0, 0);
         gl.glClearDepth(1);
         gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        gl.glOrtho(0, panel.getSize().width, panel.getSize().height, 0, -1, 1);
+        glu.gluPerspective(45.0f, h, 1.0, 200.0);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
+        glu.gluLookAt(1, 15, 10, 0, 0, 0, 0, 1, 0);
     }
 
     ArrayList<Point> bezierPoints;
+    ArrayList<Point> normals;
 
     private void reevaluatePoints() {
         bezierPoints = new ArrayList<>();
+        normals = new ArrayList<>();
         List<Point> P = points.stream().map((e) -> {
             return new Point(e.getCenteredX(), e.getCenteredY());
         }).collect(Collectors.toList());
@@ -155,27 +171,45 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
 
     @Override
     public void display(GLAutoDrawable glad) {
-        t += 0.01f;
-
+        if (btnMode.getText().equals("Stop")) {
+            t += 0.005f;
+        }
         final GL2 gl = glad.getGL().getGL2();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-        if (btnMode.getText().equals("Stop")) {
-            gl.glUseProgram(this.shaderProg);
-
-            int location = gl.glGetUniformLocation(this.shaderProg, "time");
-            gl.glUniform1f(location, t);
-        }
+        gl.glUseProgram(this.shaderProg);
+        int location = gl.glGetUniformLocation(this.shaderProg, "time");
+        gl.glUniform1f(location, t);
         gl.glColor3d(0.95, 0.66, 0.5);
         gl.glPointSize(4.0f);
         gl.glLineWidth(3.0f);
-        gl.glBegin(GL2.GL_LINE_STRIP);
+        gl.glBegin(GL2.GL_TRIANGLE_STRIP);
         bezierPoints.forEach((point) -> {
-            gl.glVertex2d(point.getX(), point.getY());
+            if (point.normal.getY() < 0) {
+                point.normal.setY(-point.normal.getY());
+            }
+            gl.glNormal3d(point.normal.getX(), point.normal.getY(), 0);
+            gl.glVertex3d(point.getX() * 0.01, point.getY() * 0.01, -2);
+            gl.glNormal3d(point.normal.getX(), point.normal.getY(), 0);
+            gl.glVertex3d(point.getX() * 0.01, point.getY() * 0.01, 4.0);
         });
         gl.glEnd();
 
         gl.glUseProgram(0);
+
+        gl.glBegin(GL2.GL_LINES);
+        gl.glColor3d(255, 0, 0); // x - red
+        gl.glVertex3f(0, 0, 0);
+        gl.glVertex3f(20, 0, 0);
+
+        gl.glColor3d(0, 255, 0); // y - green
+        gl.glVertex3f(0, 0, 0);
+        gl.glVertex3f(0, 20, 0);
+
+        gl.glColor3d(0, 0, 255); // z - blue
+        gl.glVertex3f(0, 0, 0);
+        gl.glVertex3f(0, 0, 20);
+        gl.glEnd();
     }
 
     public MainWindow() {
@@ -231,6 +265,7 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener, V
                 } else {
                     btnMode.setText("Run");
                     animator.stop();
+                    t = 0;
                     leftPanel.repaint();
                 }
             }
