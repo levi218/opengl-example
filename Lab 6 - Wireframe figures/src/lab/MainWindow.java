@@ -185,13 +185,13 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         gl.glPointSize(4.0f);
         gl.glLineWidth(3.0f);
 
-        gl.glRotated(sliderRotX.getValue() / 100.0 * 360, 1, 0, 0);
-        gl.glRotated(sliderRotY.getValue() / 100.0 * 360, 0, 1, 0);
-        gl.glRotated(sliderRotZ.getValue() / 100.0 * 360, 0, 0, 1);
+//        gl.glRotated(sliderRotX.getValue() / 100.0 * 360, 1, 0, 0);
+//        gl.glRotated(sliderRotY.getValue() / 100.0 * 360, 0, 1, 0);
+//        gl.glRotated(sliderRotZ.getValue() / 100.0 * 360, 0, 0, 1);
         gl.glPushMatrix();
 
         gl.glPushMatrix();
-        gl.glTranslated(sliderXCyl.getValue()/20.0, sliderYCyl.getValue()/20.0, 0);
+        gl.glTranslated(sliderXCyl.getValue()/20.0, sliderYCyl.getValue()/20.0, sliderZCyl.getValue()/20.0);
         gl.glRotated(sliderRotXCyl.getValue() / 100.0 * 360, 1, 0, 0);
         gl.glRotated(sliderRotYCyl.getValue() / 100.0 * 360, 0, 1, 0);
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
@@ -199,7 +199,7 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         gl.glPopMatrix();
 
         gl.glPushMatrix();
-        gl.glTranslated(sliderXEli.getValue()/20.0, sliderYEli.getValue()/20.0, 0);
+        gl.glTranslated(sliderXEli.getValue()/20.0, sliderYEli.getValue()/20.0, sliderZEli.getValue()/20.0);
         gl.glRotated(sliderRotXEli.getValue() / 100.0 * 360, 1, 0, 0);
         gl.glRotated(sliderRotYEli.getValue() / 100.0 * 360, 0, 1, 0);
         drawEllipsoid(gl, sliderRadiusEllipsoid.getValue(), sliderHeightEllipsoid.getValue(), sliderRoundSegsEllipsoid.getValue());
@@ -271,22 +271,14 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         sliderCamZ = new javax.swing.JSlider();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jLabel2 = new javax.swing.JLabel();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jLabel8 = new javax.swing.JLabel();
-        sliderRotX = new javax.swing.JSlider();
-        jLabel9 = new javax.swing.JLabel();
-        sliderRotY = new javax.swing.JSlider();
-        jLabel10 = new javax.swing.JLabel();
-        sliderRotZ = new javax.swing.JSlider();
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jLabel4 = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jLabel18 = new javax.swing.JLabel();
         sliderXCyl = new javax.swing.JSlider();
         jLabel19 = new javax.swing.JLabel();
         sliderYCyl = new javax.swing.JSlider();
+        jLabel26 = new javax.swing.JLabel();
+        sliderZCyl = new javax.swing.JSlider();
         jLabel22 = new javax.swing.JLabel();
         sliderRotXCyl = new javax.swing.JSlider();
         jLabel23 = new javax.swing.JLabel();
@@ -307,6 +299,8 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         sliderXEli = new javax.swing.JSlider();
         jLabel21 = new javax.swing.JLabel();
         sliderYEli = new javax.swing.JSlider();
+        jLabel27 = new javax.swing.JLabel();
+        sliderZEli = new javax.swing.JSlider();
         jLabel24 = new javax.swing.JLabel();
         sliderRotXEli = new javax.swing.JSlider();
         jLabel25 = new javax.swing.JLabel();
@@ -374,33 +368,6 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         jPanel1.add(filler5);
         jPanel1.add(filler6);
 
-        jLabel2.setText("Rotate");
-        jPanel1.add(jLabel2);
-        jPanel1.add(filler2);
-
-        jLabel8.setText("x");
-        jPanel1.add(jLabel8);
-
-        sliderRotX.setToolTipText("");
-        sliderRotX.setValue(0);
-        jPanel1.add(sliderRotX);
-
-        jLabel9.setText("y");
-        jPanel1.add(jLabel9);
-
-        sliderRotY.setToolTipText("");
-        sliderRotY.setValue(0);
-        jPanel1.add(sliderRotY);
-
-        jLabel10.setText("z");
-        jPanel1.add(jLabel10);
-
-        sliderRotZ.setToolTipText("");
-        sliderRotZ.setValue(0);
-        jPanel1.add(sliderRotZ);
-        jPanel1.add(filler7);
-        jPanel1.add(filler8);
-
         jLabel4.setText("Cylinder");
         jPanel1.add(jLabel4);
         jPanel1.add(filler3);
@@ -420,6 +387,14 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         sliderYCyl.setToolTipText("");
         sliderYCyl.setValue(0);
         jPanel1.add(sliderYCyl);
+
+        jLabel26.setText("z");
+        jPanel1.add(jLabel26);
+
+        sliderZCyl.setMinimum(-100);
+        sliderZCyl.setToolTipText("");
+        sliderZCyl.setValue(0);
+        jPanel1.add(sliderZCyl);
 
         jLabel22.setText("rotX");
         jPanel1.add(jLabel22);
@@ -491,6 +466,14 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         sliderYEli.setToolTipText("");
         sliderYEli.setValue(0);
         jPanel1.add(sliderYEli);
+
+        jLabel27.setText("z");
+        jPanel1.add(jLabel27);
+
+        sliderZEli.setMinimum(-100);
+        sliderZEli.setToolTipText("");
+        sliderZEli.setValue(0);
+        jPanel1.add(sliderZEli);
 
         jLabel24.setText("rotX");
         jPanel1.add(jLabel24);
@@ -601,16 +584,12 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -620,20 +599,19 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JSlider sliderCamX;
@@ -643,13 +621,10 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
     private javax.swing.JSlider sliderHeightEllipsoid;
     private javax.swing.JSlider sliderRadiusCylinder;
     private javax.swing.JSlider sliderRadiusEllipsoid;
-    private javax.swing.JSlider sliderRotX;
     private javax.swing.JSlider sliderRotXCyl;
     private javax.swing.JSlider sliderRotXEli;
-    private javax.swing.JSlider sliderRotY;
     private javax.swing.JSlider sliderRotYCyl;
     private javax.swing.JSlider sliderRotYEli;
-    private javax.swing.JSlider sliderRotZ;
     private javax.swing.JSlider sliderRoundSegsCylinder;
     private javax.swing.JSlider sliderRoundSegsEllipsoid;
     private javax.swing.JSlider sliderVerticalSegsCylinder;
@@ -657,6 +632,8 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
     private javax.swing.JSlider sliderXEli;
     private javax.swing.JSlider sliderYCyl;
     private javax.swing.JSlider sliderYEli;
+    private javax.swing.JSlider sliderZCyl;
+    private javax.swing.JSlider sliderZEli;
     // End of variables declaration//GEN-END:variables
 
 }
