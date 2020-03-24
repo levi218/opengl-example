@@ -147,7 +147,7 @@ public class MainWindow extends javax.swing.JFrame implements GLEventListener {
         double seg_angle = 2 * Math.PI / roundSegs;
         for (int i = 0; i < roundSegs; i++) {
             gl.glBegin(GL2.GL_LINE_STRIP);
-            for (double j = 0; j <= Math.PI; j += Math.PI / 20) {
+            for (double j = 0; j <= Math.PI+Math.PI / 30; j += Math.PI / 30) {
                 gl.glNormal3d(
                         a * Math.sin(j) * Math.cos(seg_angle * i),
                         b * Math.cos(j),
