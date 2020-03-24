@@ -12,7 +12,7 @@ void main(void)
     pos = vec3(gl_ModelViewMatrix * newVertex);
     color = gl_Color.rgb;
     vec3 vertex_normal = gl_Normal.xyz;
-    normal       =  normalize(gl_ModelViewMatrix * vec4(vertex_normal,0));
+    normal       =  vec3(normalize(gl_ModelViewMatrix * vec4(vertex_normal,0)));
 
     gl_Position =  gl_ModelViewProjectionMatrix *newVertex;
 }
